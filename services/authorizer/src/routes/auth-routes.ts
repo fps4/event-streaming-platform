@@ -129,6 +129,39 @@ router.post('/session', async (req: Request, res: Response) => {
   }
 });
 
+router.post('/register', async (req: Request, res: Response) => {
+  const { username, password, firstName, lastName } = req.body || {};
+  mergeLogContext({ principalId: username, principalType: 'user', action: 'register' });
+
+  try {
+    const result = await authorizerCore.registerUser({
+      username,
+      password,
+      firstName,
+      lastName,
+      clientMeta: extractClientMeta(req)
+    });
+
+    return res.status(201).json({
+      sessionId: result.sessionId,
+      token: result.token,
+      expiresIn: result.expiresIn,
+      expiresAt: result.expiresAt,
+      user: {
+        id: result.user.id,
+        roles: result.user.roles,
+        workspace_id: result.user.workspaceId
+      },
+      workspace_id: result.workspaceId
+    });
+  } catch (err: any) {
+    logger.error({ err, username }, 'user registration error');
+    if (err instanceof MissingJwtSecretError) return res.status(500).json({ message: 'Server configuration error: missing AUTH_JWT_SECRET' });
+    if (err instanceof InvalidInputError) return res.status(400).json({ message: err.message });
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 router.post('/refresh', async (req: Request, res: Response) => {
   const authz = (req.get('authorization') || '').trim();
   const tokenFromHeader = authz.toLowerCase().startsWith('bearer ') ? authz.slice(7).trim() : '';

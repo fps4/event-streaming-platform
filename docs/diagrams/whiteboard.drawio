@@ -1,6 +1,6 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
-  <diagram name="Page-1" id="JniWtE00WMzrc3asl2mY">
-    <mxGraphModel dx="1263" dy="940" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0" pages="2">
+  <diagram name="pipeline" id="JniWtE00WMzrc3asl2mY">
+    <mxGraphModel dx="2066" dy="1210" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -155,6 +155,74 @@
         </mxCell>
         <mxCell id="zbcXyv0ZTNkArmGq_hUj-73" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;size=17;" value="Publish Schema Catalogue" vertex="1">
           <mxGeometry height="80" width="100" x="300" y="710" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="NbEMokR0tLf-2U0iSazf" name="ui">
+    <mxGraphModel dx="2093" dy="1260" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;End User&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="30" x="295" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-2" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="Authenticate" vertex="1">
+          <mxGeometry height="70" width="170" x="415" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-4" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="Review key statistics of my pipelines (Dashboard)" vertex="1">
+          <mxGeometry height="70" width="170" x="415" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=1" value="I Want To:" vertex="1">
+          <mxGeometry height="30" width="60" x="280" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-7" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="Create a new pipeline with:&lt;div&gt;- source connector details&lt;/div&gt;&lt;div&gt;- sink connector details&lt;/div&gt;&lt;div&gt;- transformation&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="170" x="415" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-8" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="Start / Stop Pipelines" vertex="1">
+          <mxGeometry height="70" width="170" x="415" y="631.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-9" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="View User Documentation" vertex="1">
+          <mxGeometry height="70" width="170" x="415" y="531.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-10" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="Get alerted / notified when source/sink connectors fail" vertex="1">
+          <mxGeometry height="70" width="170" x="415" y="435" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-15" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="create a new workspace" vertex="1">
+          <mxGeometry height="70" width="170" x="415" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-17" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="user registration / authentication api" vertex="1">
+          <mxGeometry height="70" width="170" x="760" y="26.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-18" parent="1" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;image=img/clipart/Gear_128x128.png" value="Control API &lt;br&gt;(Backend)" vertex="1">
+          <mxGeometry height="60" width="50" x="1050" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-19" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="kafka statistics api" vertex="1">
+          <mxGeometry height="70" width="170" x="760" y="126.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-21" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="connector statistics api" vertex="1">
+          <mxGeometry height="70" width="170" x="760" y="226.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-22" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="View pipeline run &lt;br&gt;logs &amp;amp; traces" vertex="1">
+          <mxGeometry height="70" width="170" x="39" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-24" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="manage workspaces api" vertex="1">
+          <mxGeometry height="70" width="170" x="760" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-25" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="manage pipeline api" vertex="1">
+          <mxGeometry height="70" width="170" x="760" y="426.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-26" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="669" y="745" as="sourcePoint" />
+            <mxPoint x="669" y="25" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-33" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="view pipeline run &lt;br&gt;logs &amp;amp; traces" vertex="1">
+          <mxGeometry height="70" width="170" x="760" y="531.5" as="geometry" />
+        </mxCell>
+        <mxCell id="rEUZIU63b1Vgmx_4HGyY-36" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=19;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;- Schema catalog: browse, diff, tag (PII), view impact; pin versions to integrations.&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="170" x="39" y="25" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

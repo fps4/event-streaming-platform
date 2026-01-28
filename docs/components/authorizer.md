@@ -1,12 +1,16 @@
 # Authorizer Service
 
-Supports UI and Control API auth flows described in [ui.md](./ui.md) and [control-api.md](./control-api.md); issues tokens for `/ingest/*` and `/api/*`.
+Supports UI and Control API auth flows described in [ui.md](./ui.md) and [control-api.md](./control-api.md); issues tokens for `/ingest/*` and `/api/*` to enable end-user access/auth goals (sign in, register, manage access) and backend enforcement.
 
 Issues short-lived JWTs for the platform: machine **clients** calling `/ingest/*`, control API callers hitting `/api/*`, and browser/UI sessions. Stores minimal session metadata for audit/troubleshooting. Single MongoDB database holds workspaces, clients, users, and sessions (no multi-tenant DB split).
 
 ## Responsibilities
 - Manage **clients** (machine identities) that belong to **workspaces**; clients carry topic-bound scopes (e.g., `ingest:topic:orders.created`, `api:read`).
 - Validate client status, secrets, and workspace association before issuing tokens.
+- Register and authenticate users (operators) and issue UI/control tokens (workspace-agnostic).
+- Manage workspace lifecycle and membership **after login**: users create workspaces in the UI, add pipelines and clients, and invite other users. Workspace creator becomes **owner** and can assign other users as **admins** (and members).
+- Do **not** auto-create a workspace during registration; users can belong to zero or many workspaces.
+- Sessions can be user-only until a workspace is selected in the UI; once selected, tokens carry that workspace for authorization checks.
 - Create and persist sessions with TTL for both clients and human users.
 - Issue HS256 JWTs with principal claims (client or user), workspace claim, and scope/topic restrictions.
 - Refresh session TTL and re-issue JWTs.
@@ -55,7 +59,7 @@ Issues a token for clients that call `/ingest/*` or `/api/*`. Clients are define
 - 401: secret mismatch.
 - 500: missing `AUTH_JWT_SECRET` or internal error.
 
-### UI / user session
+### UI / user session (authenticate user)
 `POST /auth/session`
 
 Issues a session for operators using the UI/control API (authn mechanism pluggable: password, SSO token, etc.).
@@ -64,8 +68,7 @@ Issues a session for operators using the UI/control API (authn mechanism pluggab
 ```json
 {
   "username": "operator@example.com",
-  "password": "...",
-  "workspace_id": "workspace the user is operating in"
+  "password": "..."
 }
 ```
 
@@ -77,8 +80,10 @@ Issues a session for operators using the UI/control API (authn mechanism pluggab
   "expiresIn": 3600,
   "user": {
     "id": "...",
-    "roles": ["platform-admin"],
-    "workspace_id": "workspace the user is operating in"
+    "active_workspace_id": "workspace used for this session (null until selected)",
+    "memberships": [
+      {"workspace_id": "...", "role": "owner|admin|member"}
+    ]
   }
 }
 ```
@@ -101,7 +106,10 @@ Refreshes the session TTL and issues a new JWT. Accepts a bearer token or `x-ses
   "principal": {
     "id": "...",
     "type": "client|user",
-    "workspace_id": "...",
+    "active_workspace_id": "...",
+    "memberships": [
+      {"workspace_id": "...", "role": "owner|admin|member"}
+    ],
     "scopes": ["..."]
   }
 }
@@ -117,7 +125,7 @@ HS256-signed; includes:
 - `sid`: session ID
 - `pid`: principal ID (client or user)
 - `ptyp`: principal type (`client` or `user`)
-- `wid`: workspace ID
+- `wid` (optional): active workspace ID for this session when the user has selected a workspace
 - `scopes`: allowed scopes (e.g., `ingest:topic:<name>`, `api:*`, `ui:session`)
 - `iss`, `aud`, `exp`, `iat`, `jti`
 
@@ -163,3 +171,5 @@ From the service folder:
 ## Related Components
 - Data models: `@event-streaming-platform/data-models`
 - Logging utilities: `@event-streaming-platform/logging-utils`
+- Control API: consumes Authorizer-issued JWTs for `/api/*` and relies on user/client registration from this service.
+- Workspace membership model: users can belong to multiple workspaces; first registrant is owner, can promote/demote other users to admin/member; sessions pick an active workspace for authorization.

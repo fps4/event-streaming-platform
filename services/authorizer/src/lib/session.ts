@@ -1,4 +1,4 @@
-import { createHash, scryptSync, timingSafeEqual } from 'crypto';
+import { createHash, scryptSync, timingSafeEqual, randomBytes } from 'crypto';
 import {
   AuthorizerCore,
   AuthorizerCoreDependencies,
@@ -8,7 +8,9 @@ import {
   RefreshSessionInput,
   RefreshSessionResult,
   UserSessionInput,
-  UserSessionResult
+  UserSessionResult,
+  RegisterUserInput,
+  RegisterUserResult
 } from './types.js';
 import {
   ClientNotFoundError,
@@ -56,6 +58,12 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
     const a = Buffer.from(derived);
     const b = Buffer.from(hash);
     return a.length === b.length && timingSafeEqual(a, b);
+  }
+
+  function hashSecret(secret: string): { hash: string; salt: string } {
+    const salt = randomBytes(16).toString('hex');
+    const hash = scryptSync(secret, salt, 64).toString('hex');
+    return { hash, salt };
   }
 
   async function issueClientToken(input: ClientTokenInput): Promise<ClientTokenResult> {
@@ -254,10 +262,98 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
     };
   }
 
+  async function registerUser(input: RegisterUserInput): Promise<RegisterUserResult> {
+    if (!input.username) throw new InvalidInputError('username is required');
+    if (!input.password) throw new InvalidInputError('password is required');
+
+    const connection = await deps.getMasterConnection();
+    const { Workspace, User, Session } = deps.makeModels(connection);
+
+    // Check if user exists (by username)
+    const existingUser = await User.findOne({ username: input.username }).lean().exec();
+    if (existingUser) {
+      throw new InvalidInputError('User already exists');
+    }
+
+    const workspaceId = uuid();
+    const userId = uuid();
+
+    // Create Workspace
+    await Workspace.create({
+      _id: workspaceId,
+      name: `${input.username}'s Workspace`,
+      status: 'active',
+      allowedOrigins: []
+    });
+
+    // Create User
+    const { hash, salt } = hashSecret(input.password);
+    await User.create({
+      _id: userId,
+      workspaceId,
+      username: input.username,
+      passwordHash: hash,
+      passwordSalt: salt,
+      roles: ['owner'],
+      status: 'active'
+    });
+
+    const scopes = ['ui:session', 'api:*'];
+
+    if (typeof Session.init === 'function') {
+      await Session.init();
+    }
+
+    const issuedAt = now();
+    const expiresAt = new Date(issuedAt.getTime() + ttlMinutes * 60 * 1000);
+    const sessionId = uuid();
+    const context = buildSessionContext(input.clientMeta);
+
+    await Session.create({
+      _id: sessionId,
+      workspaceId,
+      principalId: userId,
+      principalType: 'user',
+      scopes,
+      topics: [],
+      status: 'active',
+      context,
+      createdAt: issuedAt,
+      updatedAt: issuedAt,
+      expiresAt
+    });
+
+    const secondsUntilExpiry = Math.max(1, Math.floor((expiresAt.getTime() - issuedAt.getTime()) / 1000));
+    const { token, exp } = await deps.signJwt({
+      sessionId,
+      principalId: userId,
+      principalType: 'user',
+      workspaceId,
+      scopes,
+      topics: [],
+      expiresInSec: secondsUntilExpiry
+    });
+    const nowSeconds = Math.floor(issuedAt.getTime() / 1000);
+
+    return {
+      sessionId,
+      token,
+      expiresIn: Math.max(0, exp - nowSeconds),
+      expiresAt,
+      user: {
+        id: userId,
+        roles: ['owner'],
+        workspaceId
+      },
+      workspaceId
+    };
+  }
+
   return {
     issueClientToken,
     createUserSession,
-    refreshSession
+    refreshSession,
+    registerUser
   };
 }
 

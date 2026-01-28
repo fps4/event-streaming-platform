@@ -7,6 +7,7 @@ export interface LoggerLike {
 
 export interface WorkspaceModelLike {
   findOne(query: Record<string, unknown>): { lean(): { exec(): Promise<any> } };
+  create(doc: Record<string, unknown>): Promise<any>;
 }
 
 export interface ClientModelLike {
@@ -15,6 +16,7 @@ export interface ClientModelLike {
 
 export interface UserModelLike {
   findOne(query: Record<string, unknown>): { lean(): { exec(): Promise<any> } };
+  create(doc: Record<string, unknown>): Promise<any>;
 }
 
 export interface SessionDocumentLike {
@@ -89,6 +91,27 @@ export interface UserSessionResult {
   };
 }
 
+export interface RegisterUserInput {
+  username: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+  clientMeta?: ClientMeta;
+}
+
+export interface RegisterUserResult {
+  sessionId: string;
+  token: string;
+  expiresIn: number;
+  expiresAt: Date;
+  user: {
+    id: string;
+    roles: string[];
+    workspaceId: string;
+  };
+  workspaceId: string;
+}
+
 export interface RefreshSessionInput {
   sessionId: string;
   workspaceId?: string;
@@ -133,4 +156,5 @@ export interface AuthorizerCore {
   issueClientToken(input: ClientTokenInput): Promise<ClientTokenResult>;
   createUserSession(input: UserSessionInput): Promise<UserSessionResult>;
   refreshSession(input: RefreshSessionInput): Promise<RefreshSessionResult>;
+  registerUser(input: RegisterUserInput): Promise<RegisterUserResult>;
 }
