@@ -28,7 +28,8 @@ function buildDeps(overrides: Partial<AuthorizerCoreDependencies> = {}): Authori
           lean: () => ({
             exec: async () => ({ _id: 'ws1', status: 'active' })
           })
-        })
+        }),
+        create: async (doc: any) => doc
       },
       Client: {
         findOne: ({ _id, workspaceId }: any) => ({
@@ -64,7 +65,8 @@ function buildDeps(overrides: Partial<AuthorizerCoreDependencies> = {}): Authori
               };
             }
           })
-        })
+        }),
+        create: async (doc: any) => doc
       },
       Session: {
         init: async () => {},

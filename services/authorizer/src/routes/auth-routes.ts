@@ -131,7 +131,7 @@ router.post('/session', async (req: Request, res: Response) => {
 
 router.post('/register', async (req: Request, res: Response) => {
   const { username, password, firstName, lastName } = req.body || {};
-  mergeLogContext({ principalId: username, principalType: 'user', action: 'register' });
+  mergeLogContext({ principalId: username, principalType: 'user' });
 
   try {
     const result = await authorizerCore.registerUser({
