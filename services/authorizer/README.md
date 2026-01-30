@@ -12,6 +12,7 @@ Issues short‑lived JWTs for machine **clients** calling `/ingest/*` or `/api/*
 - `AUTH_JWT_ISSUER` (default `authorizer-service`)
 - `AUTH_JWT_AUDIENCE` (default `api`)
 - `MONGO_URI`, `AUTH_DB_NAME` (single auth DB)
+- `AUTH_REQUIRE_USER_WORKSPACE` (default `false`): when `true`, `/auth/session` requires `workspace_id` and validates it; when `false`, users can log in without a workspace and tokens omit `wid` until one is selected.
 - `LOG_PRETTY` — set to `false`/`0` when shipping logs to Loki/Grafana so they remain JSON
 - Logs include `workspaceId`, `sessionId`, and principal identifiers when available.
 

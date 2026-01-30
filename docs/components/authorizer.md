@@ -68,7 +68,8 @@ Issues a session for operators using the UI/control API (authn mechanism pluggab
 ```json
 {
   "username": "operator@example.com",
-  "password": "..."
+  "password": "...",
+  "workspace_id": "..." // required only when AUTH_REQUIRE_USER_WORKSPACE=true
 }
 ```
 
@@ -125,7 +126,7 @@ HS256-signed; includes:
 - `sid`: session ID
 - `pid`: principal ID (client or user)
 - `ptyp`: principal type (`client` or `user`)
-- `wid` (optional): active workspace ID for this session when the user has selected a workspace
+- `wid` (optional): active workspace ID for this session when the user has selected a workspace (omitted when login is workspace-agnostic and none is selected)
 - `scopes`: allowed scopes (e.g., `ingest:topic:<name>`, `api:*`, `ui:session`)
 - `iss`, `aud`, `exp`, `iat`, `jti`
 
@@ -152,6 +153,7 @@ Stored with normalized keys (e.g., `user_agent`, `ch_ua`, `ip_address`) on the s
 - `AUTH_JWT_AUDIENCE` (default: `api`)
 - `SESSION_TTL_MINUTES` (default: `60`)
 - `CORS_ORIGINS` (comma-separated static allowlist)
+- `AUTH_REQUIRE_USER_WORKSPACE` (default: `false`): when `true`, `/auth/session` requires `workspace_id` and validates the workspace; when `false`, login can proceed without a workspace and tokens omit `wid` until a workspace is selected.
 - `LOG_PRETTY` (set to `false`/`0` for JSON logs)
 
 ## CORS Behavior

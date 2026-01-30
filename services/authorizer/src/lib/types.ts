@@ -75,7 +75,7 @@ export interface ClientTokenResult {
 export interface UserSessionInput {
   username: string;
   password: string;
-  workspaceId: string;
+  workspaceId?: string;
   clientMeta?: ClientMeta;
 }
 
@@ -87,7 +87,7 @@ export interface UserSessionResult {
   user: {
     id: string;
     roles: string[];
-    workspaceId: string;
+    workspaceId?: string;
   };
 }
 
@@ -125,7 +125,7 @@ export interface RefreshSessionResult {
   principal: {
     id: string;
     type: 'client' | 'user';
-    workspaceId: string;
+    workspaceId?: string;
     scopes: string[];
   };
 }
@@ -134,7 +134,7 @@ export interface SignSessionJwtArgs {
   sessionId: string;
   principalId: string;
   principalType: 'client' | 'user';
-  workspaceId: string;
+  workspaceId?: string;
   scopes: string[];
   topics?: string[];
   expiresInSec: number;
@@ -147,6 +147,7 @@ export interface AuthorizerCoreDependencies {
   makeModels: (connection: Connection) => AuthorizerModels;
   signJwt: SignSessionJwtFn;
   sessionTtlMinutes: number;
+  requireUserWorkspace?: boolean;
   logger?: LoggerLike;
   uuid?: () => string;
   now?: () => Date;

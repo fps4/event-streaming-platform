@@ -20,6 +20,7 @@ function buildDeps(overrides: Partial<AuthorizerCoreDependencies> = {}): Authori
 
   const deps: AuthorizerCoreDependencies = {
     sessionTtlMinutes: 60,
+    requireUserWorkspace: true,
     logger: { info() {}, error() {} },
     getMasterConnection: async () => ({}) as any,
     makeModels: () => ({
@@ -49,15 +50,16 @@ function buildDeps(overrides: Partial<AuthorizerCoreDependencies> = {}): Authori
           })
         })
       },
-      User: {
+       User: {
         findOne: ({ username, workspaceId }: any) => ({
           lean: () => ({
             exec: async () => {
-              if (username !== 'alice' || workspaceId !== 'ws1') return null;
+              if (username !== 'alice') return null;
+              if (workspaceId && workspaceId !== 'ws1') return null;
               return {
                 _id: 'user-1',
                 username,
-                workspaceId,
+                workspaceId: workspaceId || 'ws1',
                 status: 'active',
                 passwordHash: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', // sha256('password')
                 passwordSalt: null,
@@ -154,7 +156,7 @@ test('issueClientToken fails on disallowed scope', async () => {
 });
 
 test('createUserSession success', async () => {
-  const deps = buildDeps();
+  const deps = buildDeps({ requireUserWorkspace: true });
   const core = createAuthorizerCore(deps);
   const result = await core.createUserSession({
     username: 'alice',
@@ -178,6 +180,18 @@ test('createUserSession failures', async () => {
     () => core.createUserSession({ username: 'alice', password: 'bad', workspaceId: 'ws1' }),
     UserPasswordMismatchError
   );
+});
+
+test('createUserSession succeeds without workspace when optional', async () => {
+  const deps = buildDeps({ requireUserWorkspace: false });
+  const core = createAuthorizerCore(deps);
+  const result = await core.createUserSession({
+    username: 'alice',
+    password: 'password'
+  });
+
+  assert.equal(result.user.workspaceId, 'ws1');
+  assert.equal(result.token, 'jwt-session-123');
 });
 
 test('refreshSession success', async () => {

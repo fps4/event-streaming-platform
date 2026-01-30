@@ -115,7 +115,7 @@ router.post('/session', async (req: Request, res: Response) => {
       user: {
         id: result.user.id,
         roles: result.user.roles,
-        workspace_id: result.user.workspaceId
+        workspace_id: result.user.workspaceId ?? null
       }
     });
   } catch (err: any) {
@@ -182,9 +182,10 @@ router.post('/refresh', async (req: Request, res: Response) => {
     });
 
     const sessionId = String((claims as any).sid || '').trim();
-    const workspaceId = String((claims as any).wid || '').trim();
+    const workspaceIdRaw = (claims as any).wid;
+    const workspaceId = typeof workspaceIdRaw === 'string' ? workspaceIdRaw.trim() : undefined;
 
-    if (!sessionId || !workspaceId) {
+    if (!sessionId) {
       return res.status(401).json({ message: 'Invalid token claims' });
     }
 

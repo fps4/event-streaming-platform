@@ -50,8 +50,8 @@ export function JwtSignInView() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: '@2Minimal',
+    email: 'hello@gmail.com',
+    password: 'hello@gmail.com',
   };
 
   const methods = useForm({

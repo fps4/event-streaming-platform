@@ -19,5 +19,6 @@ export const authorizerCore = createAuthorizerCore({
   makeModels,
   signJwt: signSessionJwt,
   sessionTtlMinutes: CONFIG.auth.sessionTtlMinutes,
+  requireUserWorkspace: CONFIG.auth.requireUserWorkspace,
   logger
 });

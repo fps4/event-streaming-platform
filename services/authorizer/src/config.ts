@@ -8,7 +8,8 @@ export const CONFIG = {
     jwtSecret: process.env.AUTH_JWT_SECRET || '',
     jwtIssuer: process.env.AUTH_JWT_ISSUER || 'authorizer-service',
     jwtAudience: process.env.AUTH_JWT_AUDIENCE || 'api',
-    sessionTtlMinutes: Number(process.env.SESSION_TTL_MINUTES || 60)
+    sessionTtlMinutes: Number(process.env.SESSION_TTL_MINUTES || 60),
+    requireUserWorkspace: (process.env.AUTH_REQUIRE_USER_WORKSPACE || '').toLowerCase() === 'true'
   }
 } as const;
 

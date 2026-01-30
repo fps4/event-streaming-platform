@@ -28,6 +28,7 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
   const uuid = deps.uuid ?? randomUuid;
   const now = deps.now ?? (() => new Date());
   const ttlMinutes = Number(deps.sessionTtlMinutes);
+  const requireUserWorkspace = deps.requireUserWorkspace ?? false;
   if (!Number.isFinite(ttlMinutes) || ttlMinutes <= 0) {
     throw new InvalidInputError('sessionTtlMinutes must be a positive number');
   }
@@ -136,13 +137,28 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
   async function createUserSession(input: UserSessionInput): Promise<UserSessionResult> {
     if (!input.username) throw new InvalidInputError('username is required');
     if (!input.password) throw new InvalidInputError('password is required');
-    if (!input.workspaceId) throw new InvalidInputError('workspaceId is required');
+    if (requireUserWorkspace && !input.workspaceId) throw new InvalidInputError('workspaceId is required');
 
-    const { connection } = await ensureWorkspace(input.workspaceId);
+    const connection = await deps.getMasterConnection();
     const { User, Session } = deps.makeModels(connection);
 
-    const user = await User.findOne({ username: input.username, workspaceId: input.workspaceId, status: 'active' }).lean().exec();
+    let workspaceIdToUse: string | undefined = input.workspaceId;
+
+    if (requireUserWorkspace) {
+      await ensureWorkspace(input.workspaceId!);
+    }
+
+    const userQuery: Record<string, unknown> = { username: input.username, status: 'active' };
+    if (workspaceIdToUse) {
+      userQuery.workspaceId = workspaceIdToUse;
+    }
+
+    const user = await User.findOne(userQuery).lean().exec();
     if (!user) throw new UserNotFoundError(input.username);
+
+    if (!workspaceIdToUse && user.workspaceId) {
+      workspaceIdToUse = String((user as any).workspaceId);
+    }
 
     const passwordHash = (user as any).passwordHash as string | undefined | null;
     const passwordSalt = (user as any).passwordSalt as string | undefined | null;
@@ -164,7 +180,7 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
 
     await Session.create({
       _id: sessionId,
-      workspaceId: input.workspaceId,
+      workspaceId: workspaceIdToUse,
       principalId: String((user as any)._id ?? input.username),
       principalType: 'user',
       scopes,
@@ -181,7 +197,7 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
       sessionId,
       principalId: String((user as any)._id ?? input.username),
       principalType: 'user',
-      workspaceId: input.workspaceId,
+      workspaceId: workspaceIdToUse,
       scopes,
       topics: [],
       expiresInSec: secondsUntilExpiry
@@ -196,7 +212,7 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
       user: {
         id: String((user as any)._id ?? input.username),
         roles,
-        workspaceId: input.workspaceId
+        workspaceId: workspaceIdToUse
       }
     };
   }
@@ -218,7 +234,8 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
       throw new SessionNotFoundError(input.sessionId);
     }
 
-    if (input.workspaceId && String((session as any).workspaceId) !== input.workspaceId) {
+    const sessionWorkspaceId = (session as any).workspaceId ? String((session as any).workspaceId) : undefined;
+    if (input.workspaceId && sessionWorkspaceId && sessionWorkspaceId !== input.workspaceId) {
       throw new SessionNotFoundError(input.sessionId);
     }
 
@@ -241,11 +258,11 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
       sessionId: input.sessionId,
       principalId: String((session as any).principalId),
       principalType: (session as any).principalType === 'user' ? 'user' : 'client',
-      workspaceId: String((session as any).workspaceId),
-      scopes,
-      topics,
-      expiresInSec: secondsUntilExpiry
-    });
+       workspaceId: sessionWorkspaceId,
+       scopes,
+       topics,
+       expiresInSec: secondsUntilExpiry
+     });
     const nowSeconds = Math.floor(nowDate.getTime() / 1000);
 
     return {
@@ -253,14 +270,14 @@ export function createAuthorizerCore(deps: AuthorizerCoreDependencies): Authoriz
       token,
       expiresIn: Math.max(0, exp - nowSeconds),
       expiresAt,
-      principal: {
-        id: String((session as any).principalId),
-        type: (session as any).principalType === 'user' ? 'user' : 'client',
-        workspaceId: String((session as any).workspaceId),
-        scopes
-      }
-    };
-  }
+       principal: {
+         id: String((session as any).principalId),
+         type: (session as any).principalType === 'user' ? 'user' : 'client',
+         workspaceId: sessionWorkspaceId,
+         scopes
+       }
+     };
+   }
 
   async function registerUser(input: RegisterUserInput): Promise<RegisterUserResult> {
     if (!input.username) throw new InvalidInputError('username is required');

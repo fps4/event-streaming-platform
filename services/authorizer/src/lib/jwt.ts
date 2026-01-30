@@ -31,14 +31,19 @@ export function createSessionJwtSigner(config: JwtConfigProvider) {
     const now = Math.floor(Date.now() / 1000);
     const exp = now + Math.max(1, expiresInSec);
 
-    const jwt = await new SignJWT({
+    const claims: Record<string, unknown> = {
       sid: sessionId,
       pid: principalId,
       ptyp: principalType,
-      wid: workspaceId,
       scopes,
       topics
-    })
+    };
+
+    if (workspaceId) {
+      claims.wid = workspaceId;
+    }
+
+    const jwt = await new SignJWT(claims)
       .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
       .setIssuedAt(now)
       .setExpirationTime(exp)
