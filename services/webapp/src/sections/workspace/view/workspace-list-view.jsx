@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 
 import { RouterLink } from 'src/routes/components';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import { listWorkspaces } from 'src/api/workspace';
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -68,22 +69,19 @@ export function WorkspaceListView() {
 
   return (
     <DashboardContent>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
+      <CustomBreadcrumbs
+        heading="Workspaces"
+        links={[
+          { name: 'Dashboard', href: paths.dashboard.root },
+          { name: 'Workspaces', href: paths.dashboard.workspace.root },
+        ]}
+        action={
+          <Button component={RouterLink} href={paths.dashboard.workspace.new} variant="contained">
+            Create workspace
+          </Button>
+        }
         sx={{ mb: { xs: 3, md: 5 } }}
-      >
-        <Stack spacing={0.5}>
-          <Typography variant="h4">Workspaces</Typography>
-          <Typography variant="body2" color="text.secondary">
-            Browse and manage workspaces. Actions coming soon.
-          </Typography>
-        </Stack>
-        <Button component={RouterLink} href={paths.dashboard.workspace.new} variant="contained">
-          Create workspace
-        </Button>
-      </Stack>
+      />
 
       {error && (
         <Typography color="error" sx={{ mb: 2 }}>

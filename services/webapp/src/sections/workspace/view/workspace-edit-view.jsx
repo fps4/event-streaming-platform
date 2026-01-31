@@ -7,6 +7,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { WorkspaceForm } from '../components/workspace-form';
 import { getWorkspace } from 'src/api/workspace';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +38,14 @@ export function WorkspaceEditView() {
   if (loading) {
     return (
       <DashboardContent>
+        <CustomBreadcrumbs
+          heading="Edit workspace"
+          links={[
+            { name: 'Dashboard', href: paths.dashboard.root },
+            { name: 'Workspaces', href: paths.dashboard.workspace.root },
+            { name: 'Edit' },
+          ]}
+        />
         <p>Loading workspace...</p>
       </DashboardContent>
     );
@@ -44,6 +54,14 @@ export function WorkspaceEditView() {
   if (error) {
     return (
       <DashboardContent>
+        <CustomBreadcrumbs
+          heading="Edit workspace"
+          links={[
+            { name: 'Dashboard', href: paths.dashboard.root },
+            { name: 'Workspaces', href: paths.dashboard.workspace.root },
+            { name: 'Edit' },
+          ]}
+        />
         <p>{error}</p>
       </DashboardContent>
     );
@@ -51,7 +69,16 @@ export function WorkspaceEditView() {
 
   return (
     <DashboardContent>
-      <h2>Edit workspace</h2>
+      <CustomBreadcrumbs
+        heading="Edit workspace"
+        backHref={paths.dashboard.workspace.root}
+        links={[
+          { name: 'Dashboard', href: paths.dashboard.root },
+          { name: 'Workspaces', href: paths.dashboard.workspace.root },
+          { name: workspace?.name || 'Edit' },
+        ]}
+        sx={{ mb: { xs: 3, md: 5 } }}
+      />
       <WorkspaceForm currentWorkspace={workspace} />
     </DashboardContent>
   );
