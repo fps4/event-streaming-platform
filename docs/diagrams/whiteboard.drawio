@@ -289,7 +289,7 @@
         <mxCell id="fjXRWZNs-9GG4KKgsVU_-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="+ Add Workspace" vertex="1">
           <mxGeometry height="30" width="105" x="634.5" y="240" as="geometry" />
         </mxCell>
-        <mxCell id="fjXRWZNs-9GG4KKgsVU_-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;text-align: left;&quot;&gt;Workspaces&lt;/span&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Pipelines&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Wiki&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="fjXRWZNs-9GG4KKgsVU_-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;text-align: left;&quot;&gt;Workspaces&lt;/span&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Wiki&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="60" width="85" x="182.5" y="240" as="geometry" />
         </mxCell>
         <mxCell id="fjXRWZNs-9GG4KKgsVU_-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=33;fontStyle=1" value="Workspaces (List View)" vertex="1">
@@ -301,7 +301,7 @@
         <mxCell id="pdqzZ2g0tm2nEiOeA9FZ-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" value="(header / title / breadcrumb)&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="70" width="590" x="1040" y="200" as="geometry" />
         </mxCell>
-        <mxCell id="pdqzZ2g0tm2nEiOeA9FZ-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="Workspaces&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Pipelines&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Wiki&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="pdqzZ2g0tm2nEiOeA9FZ-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="Workspaces&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Wiki&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="80" width="85" x="922.5" y="240" as="geometry" />
         </mxCell>
         <mxCell id="pdqzZ2g0tm2nEiOeA9FZ-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=33;fontStyle=1" value="Pipelines (List View)" vertex="1">
@@ -541,17 +541,8 @@
         <mxCell id="r23IZ40OoiMqs52G11e2-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=33;fontStyle=1" value="Workspace 1 Pipelines" vertex="1">
           <mxGeometry height="30" width="375.5" x="1040" y="230" as="geometry" />
         </mxCell>
-        <mxCell id="r23IZ40OoiMqs52G11e2-15" edge="1" parent="1" source="r23IZ40OoiMqs52G11e2-11" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" target="MTbBdU1_SFV2494QLJNP-43">
+        <mxCell id="r23IZ40OoiMqs52G11e2-15" edge="1" parent="1" source="0o1GHJt08hFchpucXAcA-1" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.018;entryY=0.139;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryPerimeter=0;" target="pdqzZ2g0tm2nEiOeA9FZ-1">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="r23IZ40OoiMqs52G11e2-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="pipeline 1" vertex="1">
-          <mxGeometry height="40" width="120" x="619.5" y="360" as="geometry" />
-        </mxCell>
-        <mxCell id="r23IZ40OoiMqs52G11e2-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="pipeline 2" vertex="1">
-          <mxGeometry height="40" width="120" x="620" y="414" as="geometry" />
-        </mxCell>
-        <mxCell id="r23IZ40OoiMqs52G11e2-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="pipeline 3" vertex="1">
-          <mxGeometry height="40" width="120" x="619.5" y="470" as="geometry" />
         </mxCell>
         <mxCell id="iDwIj-msrTFyK6aV2HL0-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="(navbar)" vertex="1">
           <mxGeometry height="400" width="130" x="1760" y="200" as="geometry" />
@@ -559,7 +550,7 @@
         <mxCell id="iDwIj-msrTFyK6aV2HL0-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" value="(header / title / breadcrumb)" vertex="1">
           <mxGeometry height="60" width="590" x="1900" y="200" as="geometry" />
         </mxCell>
-        <mxCell id="iDwIj-msrTFyK6aV2HL0-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="Workspaces&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Pipelines&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Wiki&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="iDwIj-msrTFyK6aV2HL0-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="Workspaces&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Wiki&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="80" width="85" x="1782.5" y="240" as="geometry" />
         </mxCell>
         <mxCell id="iDwIj-msrTFyK6aV2HL0-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=33;fontStyle=1" value="Wiki" vertex="1">
@@ -576,6 +567,15 @@
         </mxCell>
         <mxCell id="iDwIj-msrTFyK6aV2HL0-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="..." vertex="1">
           <mxGeometry height="60" width="120" x="2200" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="0o1GHJt08hFchpucXAcA-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="Pipelines" vertex="1">
+          <mxGeometry height="30" width="105" x="627.5" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="0o1GHJt08hFchpucXAcA-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" value="" vertex="1">
+          <mxGeometry height="347" width="440" x="290" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="0o1GHJt08hFchpucXAcA-3" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=21;fillColor=#fff2cc;strokeColor=#d6b656;" value="navbar will be by default narrowed to just icons." vertex="1">
+          <mxGeometry height="122" width="97.5" x="916.25" y="454" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

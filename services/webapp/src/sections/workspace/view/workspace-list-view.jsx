@@ -56,7 +56,7 @@ export function WorkspaceListView() {
       >
         <CardContent sx={{ height: '100%' }}>
           <Stack spacing={1}>
-            <Typography variant="h4">{ws.name}</Typography>
+            <Typography variant="h5">{ws.name}</Typography>
             <Typography variant="body2" color="text.secondary">
               Status: {ws.status || 'unknown'}
             </Typography>
@@ -72,6 +72,7 @@ export function WorkspaceListView() {
   );
 
   const empty = !loading && !workspaces.length;
+  const selectedWorkspace = workspaces.find((ws) => ws.id === selectedId);
 
   return (
     <DashboardContent>
@@ -119,6 +120,50 @@ export function WorkspaceListView() {
           </Card>
         )}
       </Box>
+
+      <Card
+        sx={{
+          mt: 4,
+          minHeight: 360,
+          display: 'flex',
+          backgroundColor: selectedWorkspace ? 'action.selected' : 'background.paper',
+        }}
+      >
+        <CardContent sx={{ flexGrow: 1 }}>
+          {selectedWorkspace ? (
+            <Stack spacing={2}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  gap: 2,
+                }}
+              >
+                <Stack spacing={0.5}>
+                  <Typography variant="h6">Workspace: {selectedWorkspace.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Status: {selectedWorkspace.status || 'unknown'}
+                  </Typography>
+                </Stack>
+                <Button
+                  size="medium"
+                  variant="contained"
+                  component={RouterLink}
+                  href={`${paths.dashboard.workspace.pipeline.list.replace(':id', selectedWorkspace.id)}?name=${encodeURIComponent(selectedWorkspace.name || '')}`}
+                  startIcon={<Iconify icon="mingcute:route-line" />}
+                >
+                  Pipelines
+                </Button>
+              </Box>
+            </Stack>
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              Select a workspace to view details.
+            </Typography>
+          )}
+        </CardContent>
+      </Card>
     </DashboardContent>
   );
 }
