@@ -146,15 +146,6 @@ export function WorkspaceListView() {
                     Status: {selectedWorkspace.status || 'unknown'}
                   </Typography>
                 </Stack>
-                <Button
-                  size="medium"
-                  variant="contained"
-                  component={RouterLink}
-                  href={`${paths.dashboard.workspace.pipeline.list.replace(':id', selectedWorkspace.id)}?name=${encodeURIComponent(selectedWorkspace.name || '')}`}
-                  startIcon={<Iconify icon="mingcute:route-line" />}
-                >
-                  Pipelines
-                </Button>
               </Box>
             </Stack>
           ) : (

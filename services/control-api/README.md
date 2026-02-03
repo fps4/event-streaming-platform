@@ -50,6 +50,10 @@ npm start
 - Workspaces:
   - `GET /api/workspaces` — list
   - `POST /api/workspaces` — create `{ id, name, allowedOrigins? }`
+- Pipelines:
+  - `GET /api/pipelines` — list all pipelines
+  - `POST /api/pipelines` — create (requires `workspaceId` in body)
+  - `PUT /api/pipelines/:pipelineId` — update status/streams/clients/transform (requires `workspaceId` in body)
 - Clients (scoped to workspace):
   - `GET /api/workspaces/:id/clients` — list
   - `POST /api/workspaces/:id/clients` — create `{ id, secretHash, secretSalt?, allowedScopes?, allowedTopics? }`

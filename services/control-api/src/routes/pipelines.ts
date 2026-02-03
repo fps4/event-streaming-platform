@@ -7,23 +7,25 @@ import { log, toId } from './helpers.js';
 export function pipelineRoutes() {
   const router = Router({ mergeParams: true });
 
-  router.get('/workspaces/:id/pipelines', async (req, res) => {
+  router.get('/pipelines', async (_req, res) => {
     const conn = await getConnection();
     const { Pipeline } = makeModels(conn);
-    const items = await Pipeline.find({ workspaceId: toId(req.params.id) }).lean().exec();
+    const items = await Pipeline.find({}).lean().exec();
     res.json({ items });
   });
 
-  router.post('/workspaces/:id/pipelines', async (req, res) => {
+  router.post('/pipelines', async (req, res) => {
     const conn = await getConnection();
     const { Pipeline } = makeModels(conn);
     const _id = req.body?.id || req.body?._id || randomUUID();
     const name = String(req.body?.name || '').trim();
     if (!name) return res.status(400).json({ error: 'name is required' });
+    const workspaceId = toId(req.body?.workspaceId);
+    if (!workspaceId) return res.status(400).json({ error: 'workspaceId is required' });
 
     const doc = await Pipeline.create({
       _id,
-      workspaceId: toId(req.params.id),
+      workspaceId,
       name,
       description: req.body?.description || '',
       status: (req.body?.status || 'draft') as unknown,
@@ -32,15 +34,17 @@ export function pipelineRoutes() {
       sinkClients: Array.isArray(req.body?.sinkClients) ? req.body.sinkClients : [],
       transform: req.body?.transform || null
     });
-    log.info({ pipelineId: _id, workspaceId: req.params.id }, 'pipeline created');
+    log.info({ pipelineId: _id, workspaceId }, 'pipeline created');
     res.status(201).json(doc);
   });
 
-  router.put('/workspaces/:id/pipelines/:pipelineId', async (req, res) => {
+  router.put('/pipelines/:pipelineId', async (req, res) => {
     const conn = await getConnection();
     const { Pipeline } = makeModels(conn);
     const _id = toId(req.params.pipelineId);
     if (!_id) return res.status(400).json({ error: 'pipelineId is required' });
+    const workspaceId = toId(req.body?.workspaceId);
+    if (!workspaceId) return res.status(400).json({ error: 'workspaceId is required' });
 
     const updates: Record<string, unknown> = {};
 
@@ -82,14 +86,14 @@ export function pipelineRoutes() {
     }
 
     const doc = await Pipeline.findOneAndUpdate(
-      { _id, workspaceId: toId(req.params.id) },
+      { _id, workspaceId },
       { ...updates, updatedAt: new Date() },
       { new: true }
     ).lean().exec();
 
     if (!doc) return res.status(404).json({ error: 'pipeline not found' });
 
-    log.info({ pipelineId: _id, workspaceId: req.params.id }, 'pipeline updated');
+    log.info({ pipelineId: _id, workspaceId }, 'pipeline updated');
     res.json(doc);
   });
 

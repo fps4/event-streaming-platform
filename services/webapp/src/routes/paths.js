@@ -50,17 +50,18 @@ export const paths = {
         new: `${ROOTS.DASHBOARD}/workspace/new`,
         details: (id) => `${ROOTS.DASHBOARD}/workspace/${id}`,
         edit: (id) => `${ROOTS.DASHBOARD}/workspace/${id}/edit`,
-        pipeline: {
-          list: `${ROOTS.DASHBOARD}/workspace/:id/pipeline`,
-          new: `${ROOTS.DASHBOARD}/workspace/:id/pipeline/new`,
-          details: (workspaceId, pipelineId) => `${ROOTS.DASHBOARD}/workspace/${workspaceId}/pipeline/${pipelineId}`,
-          edit: (workspaceId, pipelineId) => `${ROOTS.DASHBOARD}/workspace/${workspaceId}/pipeline/${pipelineId}/edit`,
-        }
+      },
+      pipeline: {
+        root: `${ROOTS.DASHBOARD}/pipeline`,
+        new: `${ROOTS.DASHBOARD}/pipeline/new`,
+        details: (pipelineId) => `${ROOTS.DASHBOARD}/pipeline/${pipelineId}`,
+        edit: (pipelineId) => `${ROOTS.DASHBOARD}/pipeline/${pipelineId}/edit`,
+        flow: (pipelineId) => `${ROOTS.DASHBOARD}/pipeline/${pipelineId}/details`,
       },
       group: {
-        root: `${ROOTS.DASHBOARD}/group`,
-        five: `${ROOTS.DASHBOARD}/group/five`,
-        six: `${ROOTS.DASHBOARD}/group/six`,
-    },
+          root: `${ROOTS.DASHBOARD}/group`,
+          five: `${ROOTS.DASHBOARD}/group/five`,
+          six: `${ROOTS.DASHBOARD}/group/six`,
+      },
   },
 };
