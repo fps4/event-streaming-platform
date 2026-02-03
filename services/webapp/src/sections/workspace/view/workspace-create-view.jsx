@@ -1,10 +1,12 @@
 'use client';
 
+import { paths } from 'src/routes/paths';
+
 import { DashboardContent } from 'src/layouts/dashboard';
 
-import { WorkspaceForm } from '../components/workspace-form';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { paths } from 'src/routes/paths';
+
+import { WorkspaceForm } from '../components/workspace-form';
 
 // ----------------------------------------------------------------------
 

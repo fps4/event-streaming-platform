@@ -8,6 +8,7 @@ export async function listWorkspaces(signal) {
   return items.map((ws) => ({
     id: ws._id ?? ws.id,
     name: ws.name ?? 'Untitled workspace',
+    description: ws.description ?? '',
     status: ws.status ?? 'unknown',
     allowedOrigins: Array.isArray(ws.allowedOrigins) ? ws.allowedOrigins : [],
   }));
@@ -20,6 +21,7 @@ export async function getWorkspace(id, signal) {
   return {
     id: ws._id ?? ws.id,
     name: ws.name ?? 'Untitled workspace',
+    description: ws.description ?? '',
     status: ws.status ?? 'unknown',
     allowedOrigins: Array.isArray(ws.allowedOrigins) ? ws.allowedOrigins : [],
   };

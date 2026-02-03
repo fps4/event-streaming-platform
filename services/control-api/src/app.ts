@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import { randomUUID } from 'crypto';
-import { CONFIG } from './config';
-import { buildRouter } from './routes';
-import { addLogContext, componentLogger, withLogContext } from './logger';
+import { CONFIG } from './config/index.js';
+import { buildRouter } from './routes/index.js';
+import { addLogContext, componentLogger, withLogContext } from './lib/logger.js';
 
 const log = componentLogger('server');
 const httpLog = componentLogger('http');
@@ -36,7 +36,7 @@ function requestLoggingMiddleware(): express.RequestHandler {
   };
 }
 
-function createApp() {
+export function createApp() {
   const app = express();
   const corsAllowlist = CONFIG.corsOrigins;
   const corsOptions: cors.CorsOptions = {
@@ -58,16 +58,3 @@ function createApp() {
   app.get('/health', (_req, res) => res.json({ status: 'ok' }));
   return app;
 }
-
-function start() {
-  const app = createApp();
-  app.listen(CONFIG.port, () => {
-    log.info({ port: CONFIG.port }, 'control-api listening');
-  });
-}
-
-if (require.main === module) {
-  start();
-}
-
-export { createApp };

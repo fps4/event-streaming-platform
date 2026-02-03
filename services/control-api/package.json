@@ -1,13 +1,13 @@
 {
   "name": "@event-streaming-platform/api",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "type": "commonjs",
+  "main": "dist/server.js",
+  "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "ts-node src/index.ts",
-    "start": "node dist/index.js",
-    "test": "node --test --require ts-node/register src/index.test.ts"
+    "dev": "node --loader ts-node/esm src/server.ts",
+    "start": "node dist/server.js",
+    "test": "node --test --loader ts-node/esm --test-reporter=spec tests/**/*.test.ts"
   },
   "dependencies": {
     "@event-streaming-platform/data-models": "file:../../packages/data-models",

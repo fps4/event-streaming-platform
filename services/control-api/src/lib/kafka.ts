@@ -1,6 +1,6 @@
 import { Admin, Kafka, logLevel } from 'kafkajs';
-import { CONFIG } from './config';
-import { componentLogger } from './logger';
+import { CONFIG } from '../config/index.js';
+import { componentLogger } from './logger.js';
 
 const kafka = new Kafka({
   clientId: CONFIG.kafkaClientId,

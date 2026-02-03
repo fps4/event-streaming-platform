@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from 'react';
 
+import { paths } from 'src/routes/paths';
 import { useParams } from 'src/routes/hooks';
+
+import { getWorkspace } from 'src/api/workspace';
 import { DashboardContent } from 'src/layouts/dashboard';
 
-import { WorkspaceForm } from '../components/workspace-form';
-import { getWorkspace } from 'src/api/workspace';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { paths } from 'src/routes/paths';
+
+import { WorkspaceForm } from '../components/workspace-form';
 
 // ----------------------------------------------------------------------
 

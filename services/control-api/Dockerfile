@@ -36,4 +36,4 @@ COPY --from=build /app/packages/logging-utils ./packages/logging-utils
 
 EXPOSE 7304
 WORKDIR /app/services/control-api
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]

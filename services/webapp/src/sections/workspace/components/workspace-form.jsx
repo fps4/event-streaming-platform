@@ -1,8 +1,8 @@
 'use client';
 
 import { z as zod } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -13,14 +13,16 @@ import CardHeader from '@mui/material/CardHeader';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { createWorkspace, updateWorkspace } from 'src/api/workspace';
+
 import { Form, Field } from 'src/components/hook-form';
 
-import { createWorkspace, updateWorkspace } from 'src/api/workspace';
 
 // ----------------------------------------------------------------------
 
 const WorkspaceSchema = zod.object({
   name: zod.string().min(1, { message: 'Name is required' }),
+  description: zod.string().optional(),
   allowedOrigins: zod.string().optional(),
 });
 
@@ -31,6 +33,7 @@ export function WorkspaceForm({ currentWorkspace }) {
 
   const defaultValues = {
     name: '',
+    description: '',
     status: currentWorkspace?.status ?? 'active',
     allowedOrigins: (currentWorkspace?.allowedOrigins || []).join('\n'),
   };
@@ -60,7 +63,7 @@ export function WorkspaceForm({ currentWorkspace }) {
           .filter(Boolean)
       : [];
 
-    const payload = { name: data.name, allowedOrigins };
+    const payload = { name: data.name, description: data.description ?? '', allowedOrigins };
 
     if (currentWorkspace?.id) {
       await updateWorkspace(currentWorkspace.id, payload);
@@ -78,6 +81,7 @@ export function WorkspaceForm({ currentWorkspace }) {
           <CardHeader title="Workspace details" />
           <Stack spacing={3} sx={{ p: 3 }}>
             <Field.Text name="name" label="Name" placeholder="My workspace" />
+            <Field.Text name="description" label="Description" placeholder="My workspace description" />
             <TextField
               name="allowedOrigins"
               label="Allowed origins"
