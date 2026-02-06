@@ -32,8 +32,8 @@ This blueprint packages the core building blocks needed to run a multi-tenant â€
 - UX scope includes **multi-destination delivery** (REST + S3), retries/backoff, idempotency hints, and operational controls.
 
 ### Control plane + security
-- **Control API** manages workspaces, clients, users, topics, and transform configs; persists state in **MongoDB** and uses KafkaJS Admin for broker interactions.
-- **Authorizer** issues short-lived **HS256 JWTs** for machine clients and UI sessions, with workspace + scope/topic restrictions.
+- **Control API** manages workspaces, clients (global machine identities), users, topics, and transform configs; persists state in **MongoDB** and uses KafkaJS Admin for broker interactions. Clients are linked to workspaces through pipeline registration.
+- **Authorizer** issues short-lived **HS256 JWTs** for machine clients and UI sessions, with scope/topic restrictions.
 
 ## Architecture at a glance
 

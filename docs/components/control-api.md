@@ -14,7 +14,7 @@ Control-plane API used by UI/automation to power end-user flows (workspaces, pip
 - Workspaces: `GET /api/workspaces`, `POST /api/workspaces`.
 - Pipelines: `GET /api/pipelines` (list all), `GET /api/pipelines/:pipelineId` (get single pipeline), `POST /api/pipelines` (create; requires `workspaceId`), `PUT /api/pipelines/:pipelineId` (update status/streams/clients/transform; requires `workspaceId`), `POST /api/pipelines/:id/start`, `POST /api/pipelines/:id/stop`.
 - Connectors: source/sink config management surfaced through pipelines endpoints.
-- Clients: `GET /api/workspaces/:id/clients`, `POST /api/workspaces/:id/clients`.
+- Clients: `GET /api/clients` (list all), `GET /api/clients/:id` (get single client), `POST /api/clients` (create global client), `PUT /api/clients/:id` (update client). Clients are global entities; workspace association is established through pipeline registration (`sourceClients`/`sinkClients`).
 - Users: `GET /api/workspaces/:id/users`, `POST /api/workspaces/:id/users`.
 - Topics (Kafka admin via KafkaJS): `POST /api/topics` (create), `GET /api/topics` (list), `GET /api/topics/:name/metrics` (per-partition offsets/lag).
 - Pipeline run logs & traces: `GET /api/pipelines/:id/logs`, `GET /api/pipelines/:id/traces` (backs UI observability views).
@@ -24,11 +24,11 @@ Control-plane API used by UI/automation to power end-user flows (workspaces, pip
 ## Integration with Other Services
 - **MongoDB (via `@event-streaming-platform/data-models`)**: uses shared Mongoose models for multi-tenant state:
   - `Workspace`: tenants with status and allowed origins.
-  - `Client`: per-workspace clients with secret hash/salt, allowed scopes/topics.
+  - `Client`: global machine identities with secret hash/salt, allowed scopes/topics. Linked to workspaces through pipeline registration (`Pipeline.sourceClients`/`Pipeline.sinkClients`).
   - `User`: per-workspace users with roles and credentials.
   - `Session`: issued tokens for clients/users with scopes/topics and expiry.
   - `JsonataTransform`: versioned Jsonata expressions bound to source/target topics (plus schema IDs) for the transform runtime.
-  - Access patterns: workspace scoping on every query, status `active` checks, audit on mutations.
+  - Access patterns: workspace scoping on workspace-owned entities, status `active` checks, audit on mutations.
 - **Kafka (via KafkaJS admin)**: topic creation/listing and offset metrics; configured by `KAFKA_BROKERS`, SSL/SASL envs.
 - **Authorizer**: issues JWTs for UI/control callers; Control API validates bearer tokens on `/api/*`.
 

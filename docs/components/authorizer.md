@@ -5,12 +5,12 @@ Supports UI and Control API auth flows described in [ui.md](./ui.md) and [contro
 Issues short-lived JWTs for the platform: machine **clients** calling `/ingest/*`, control API callers hitting `/api/*`, and browser/UI sessions. Stores minimal session metadata for audit/troubleshooting. Single MongoDB database holds workspaces, clients, users, and sessions (no multi-tenant DB split).
 
 ## Responsibilities
-- Manage **clients** (machine identities) that belong to **workspaces**; clients carry topic-bound scopes (e.g., `ingest:topic:orders.created`, `api:read`).
-- Validate client status, secrets, and workspace association before issuing tokens.
+- Manage **clients** (global machine identities); clients carry topic-bound scopes (e.g., `ingest:topic:orders.created`, `api:read`).
+- Validate client status and secrets before issuing tokens; workspace context is established through session metadata (derived from pipeline registration).
 - Register and authenticate users (operators) and issue UI/control tokens (workspace-agnostic).
 - Manage workspace lifecycle and membership **after login**: users create workspaces in the UI, add pipelines and clients, and invite other users. Workspace creator becomes **owner** and can assign other users as **admins** (and members).
 - Do **not** auto-create a workspace during registration; users can belong to zero or many workspaces.
-- Sessions can be user-only until a workspace is selected in the UI; once selected, tokens carry that workspace for authorization checks.
+- Sessions can be user-only until a workspace is selected in the UI; once selected, tokens carry that workspace for authorization checks. For client sessions, workspace context comes from pipeline registration.
 - Create and persist sessions with TTL for both clients and human users.
 - Issue HS256 JWTs with principal claims (client or user), workspace claim, and scope/topic restrictions.
 - Refresh session TTL and re-issue JWTs.
@@ -29,14 +29,13 @@ Base path: `/auth`
 ### Client token (machine-to-machine)
 `POST /auth/token`
 
-Issues a token for clients that call `/ingest/*` or `/api/*`. Clients are defined inside a workspace.
+Issues a token for clients that call `/ingest/*` or `/api/*`. Clients are global entities.
 
 **Request body**
 ```json
 {
   "client_id": "client id",
   "client_secret": "client secret",
-  "workspace_id": "workspace that owns the client",
   "scopes": ["ingest:topic:orders.created", "api:read"]
 }
 ```
@@ -48,14 +47,13 @@ Issues a token for clients that call `/ingest/*` or `/api/*`. Clients are define
   "token": "...",
   "expiresIn": 3600,
   "client_id": "...",
-  "workspace_id": "...",
   "scopes": ["ingest:topic:orders.created", "api:read"]
 }
 ```
 
 **Errors**
-- 400: invalid input or scopes not allowed for the client/workspace.
-- 404: client or workspace not found/inactive.
+- 400: invalid input or scopes not allowed for the client.
+- 404: client not found/inactive.
 - 401: secret mismatch.
 - 500: missing `AUTH_JWT_SECRET` or internal error.
 

@@ -11,7 +11,7 @@ Shared Mongoose schemas and model factories that all services use for tenant-sco
 
 ## Schema highlights
 - **Workspace**: `_id`, `name`, `status` (`active`/`inactive`), `allowedOrigins`; status indexed.
-- **Client**: `_id`, `workspaceId` (ref, indexed), `status` (`active`/`inactive`, indexed), `secretHash`/`secretSalt`, `allowedScopes`, `allowedTopics`; virtual `workspace` for population.
+- **Client**: `_id`, `status` (`active`/`inactive`, indexed), `secretHash`/`secretSalt`, `allowedScopes`, `allowedTopics`; global entity linked to workspaces through pipeline registration.
 - **User**: `_id`, `workspaceId` (ref, indexed), `username` (unique), password hash/salt, `roles`, `status` (`active`/`inactive`, indexed); virtual `workspace` for population.
 - **Session**: `_id` (session UUID), `workspaceId` (ref, indexed), `principalId`, `principalType` (`client`/`user`, indexed), `scopes`, `topics`, arbitrary `context`, `status` (`active`/`revoked`, indexed), `expiresAt` (indexed); virtual `workspace` for population.
 - **Notification**: channel `slack|email` (indexed), `type` (indexed), `correlationId` (indexed), optional `tenantId`/`contactId`, channel-specific `target`, arbitrary `payload`, `status` (`queued`/`sent`/`failed`, indexed), optional `error` snapshot, `deliveredAt`.
